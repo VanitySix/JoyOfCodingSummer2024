@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE student PUBLIC "-//Joy of Coding at PSU//DTD Grade Book//EN" "http://www.cs.pdx.edu/~whitlock/dtds/gradebook.dtd">
+<student enrolled-section="undergraduate">
+<id>louis8</id>
+<firstName>Louis</firstName>
+<lastName>Nguyen</lastName>
+<email>louis8@pdx.edu</email>
+<major>computer science</major>
+<github-user-name>VanitySix</github-user-name>
+<notes>
+<note>Louis Nguyen would like to learn The ability to learn another programming language. I'm kind of scsared learning a new one but its a skill I probably need to learn down the line. Though Iwould liek to just stick to one or two languages.</note>
+<note>Louis Nguyen has these comments: I struggle a lot... but hopefully it'll be fine in the end</note>
+</notes>
+</student>
