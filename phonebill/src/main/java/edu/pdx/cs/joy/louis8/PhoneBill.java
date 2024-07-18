@@ -18,7 +18,8 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
   @Override
   public void addPhoneCall(PhoneCall call) {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+
   }
 
   @Override
