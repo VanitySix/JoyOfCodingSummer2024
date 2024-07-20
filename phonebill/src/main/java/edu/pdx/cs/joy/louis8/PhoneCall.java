@@ -16,7 +16,7 @@ public class PhoneCall extends AbstractPhoneCall {
   private String end_date;
   private String end_time;
 
-  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date,String begin_time, String end_date, String end_time){
+  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time) {
     this.customer = customer;
     this.callerNumber = callerNumber;
     this.calleeNumber = calleeNumber;
@@ -25,6 +25,7 @@ public class PhoneCall extends AbstractPhoneCall {
     this.end_date = end_date;
     this.end_time = end_time;
   }
+
   @Override
   public String getCaller() {
     //throw new UnsupportedOperationException("This method is not implemented yet");
@@ -49,10 +50,22 @@ public class PhoneCall extends AbstractPhoneCall {
     //throw new UnsupportedOperationException("This method is not implemented yet");
     return end_date + ", " + end_time;
   }
-  public boolean validate_date_time(String date){
+
+  public boolean validate_date_time(String date) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy H:mm");
 
 
     return true;
+  }
+
+  public boolean validate_phone_number(String callerNumber, String calleeNumber) {
+
+    if (callerNumber.length() != 12 || calleeNumber.length() != 12) // Length includes hyphens
+    {
+      return false;
+    }
+
+    return true;
+
   }
 }

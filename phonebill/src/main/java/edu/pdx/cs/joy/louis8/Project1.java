@@ -27,7 +27,7 @@ public class Project1 {
     System.out.println("-----");
     bill.addPhoneCall(call);
 
-    if(begin_date)
+    //if(begin_date)
     /*
     // Display list
     for (PhoneCall list : bill.getPhoneCalls()) {
