@@ -13,21 +13,39 @@ public class Project1 {
   }
 
   public static void main(String[] args) {
-    String customer_name = args[0];
+    String a_customer = args[0];
+    String a_callerNumber = args[1];
+    String a_calleeNumber = args[2];
+    String begin_date = args[3];
+    String begin_time = args[4];
+    String end_date = args[5];
+    String end_time = args[6];
 
-    PhoneCall call = new PhoneCall();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+    PhoneCall call = new PhoneCall(a_customer,a_callerNumber,a_calleeNumber,begin_date,begin_time,end_date,end_time);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+    PhoneBill bill = new PhoneBill(a_customer);
 
+    System.out.println("-----");
+    bill.addPhoneCall(call);
 
+    if(begin_date)
+    /*
+    // Display list
+    for (PhoneCall list : bill.getPhoneCalls()) {
+      System.out.println(list.getCaller());
+    }*/
+/*
     String test = call.getCaller();
     System.out.println(test);
 
-    PhoneBill bill = new PhoneBill(customer_name);
+    PhoneBill bill = new PhoneBill(a_customer);
 
-    bill.addPhoneCall(call);
+    bill.addPhoneCall(call);*/
 
 
-    if(args.length != 7) {
-      System.err.println("Missing or extraneous command line arguments");
+    if(args.length > 7) {
+      System.err.println("Too many command line arguments");
+    } else {
+      System.err.println("Missing command line arguments");
     }
     /*for (String arg : args) {
       System.out.println(arg);
@@ -45,7 +63,7 @@ public class Project1 {
     System.out.println("-README      Prints a README for this project and exits");
     System.out.println("Date and time should be in the format: mm/dd/yyyy hh:mm");
 
-    call.getCaller();
+   // call.getCaller();
   }
 
 }
