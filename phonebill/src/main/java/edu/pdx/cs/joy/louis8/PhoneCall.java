@@ -50,15 +50,43 @@ public class PhoneCall extends AbstractPhoneCall {
     //throw new UnsupportedOperationException("This method is not implemented yet");
     return end_date + ", " + end_time;
   }
+  // Getter methods
+  public String getCustomer() {
+    return customer;
+  }
 
-  public boolean validate_date_time(String date) {
+  public String getCallerNumber() {
+    return callerNumber;
+  }
+
+  public String getCalleeNumber() {
+    return calleeNumber;
+  }
+
+  public String getBeginDate() {
+    return begin_date;
+  }
+
+  public String getBeginTime() {
+    return begin_time;
+  }
+
+  public String getEndDate() {
+    return end_date;
+  }
+
+  public String getEndTime() {
+    return end_time;
+  }
+
+  public boolean validateDataTime(String date) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy H:mm");
 
 
     return true;
   }
 
-  public boolean validate_phone_number(String callerNumber, String calleeNumber) {
+  public boolean validatePhoneNumber(String callerNumber, String calleeNumber) {
 
     if (callerNumber.length() != 12 || calleeNumber.length() != 12) // Length includes hyphens
     {

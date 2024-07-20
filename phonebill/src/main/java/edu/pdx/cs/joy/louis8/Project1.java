@@ -21,10 +21,14 @@ public class Project1 {
     String end_date = args[5];
     String end_time = args[6];
 
+
     PhoneCall call = new PhoneCall(a_customer,a_callerNumber,a_calleeNumber,begin_date,begin_time,end_date,end_time);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     PhoneBill bill = new PhoneBill(a_customer);
 
     System.out.println("-----");
+    System.out.println(args[6]);
+    System.out.println("-----");
+
     bill.addPhoneCall(call);
 
     //if(begin_date)

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link PhoneCall} class.
@@ -38,5 +38,17 @@ public class PhoneCallTest {
     PhoneCall call = new PhoneCall();
     assertThat(call.getBeginTime(), is(nullValue()));
   }
-  
+  @Test
+  public void testPhoneCallConstructor() {
+    PhoneCall call = new PhoneCall("John Doe", "1234567890", "9876543210", "07/17/2024", "10:00", "07/17/2024", "11:00");
+    // Add assertions to test the PhoneCall object
+    assertNotNull(call);
+    assertEquals("John Doe", call.getCaller());
+    assertEquals("1234567890", call.getCallerNumber());
+    assertEquals("9876543210", call.getCalleeNumber());
+    assertEquals("07/17/2024", call.getBeginDate());
+    assertEquals("10:00", call.getBeginTime());
+    assertEquals("07/17/2024", call.getEndDate());
+    assertEquals("11:00", call.getEndTime());
+  }
 }
