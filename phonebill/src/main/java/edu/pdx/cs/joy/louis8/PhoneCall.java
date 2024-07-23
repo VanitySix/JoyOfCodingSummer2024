@@ -67,7 +67,7 @@ public class PhoneCall extends AbstractPhoneCall {
     return begin_date;
   }
 
-  public String getBeginTime() {
+  public String getBegin_Time() {
     return begin_time;
   }
 
@@ -75,7 +75,7 @@ public class PhoneCall extends AbstractPhoneCall {
     return end_date;
   }
 
-  public String getEndTime() {
+  public String getEnd_Time() {
     return end_time;
   }
 

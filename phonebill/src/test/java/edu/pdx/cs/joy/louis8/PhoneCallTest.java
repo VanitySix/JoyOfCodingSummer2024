@@ -19,8 +19,8 @@ public class PhoneCallTest {
    */
   @Test
   void getBeginTimeStringNeedsToBeImplemented() {
-    PhoneCall call = new PhoneCall();
-    assertThrows(UnsupportedOperationException.class, call::getBeginTimeString);
+    //PhoneCall call = new PhoneCall();
+    //assertThrows(UnsupportedOperationException.class, call::getBeginTimeString);
   }
 
   /**
@@ -29,14 +29,14 @@ public class PhoneCallTest {
    */
   @Test
   void initiallyAllPhoneCallsHaveTheSameCallee() {
-    PhoneCall call = new PhoneCall();
-    assertThat(call.getCallee(), containsString("not implemented"));
+    //PhoneCall call = new PhoneCall();
+    //assertThat(call.getCallee(), containsString("not implemented"));
   }
 
   @Test
   void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
-    PhoneCall call = new PhoneCall();
-    assertThat(call.getBeginTime(), is(nullValue()));
+    //PhoneCall call = new PhoneCall();
+    //assertThat(call.getBeginTime(), is(nullValue()));
   }
   @Test
   public void testPhoneCallConstructor() {
@@ -47,8 +47,8 @@ public class PhoneCallTest {
     assertEquals("1234567890", call.getCallerNumber());
     assertEquals("9876543210", call.getCalleeNumber());
     assertEquals("07/17/2024", call.getBeginDate());
-    assertEquals("10:00", call.getBeginTime());
+    assertEquals("10:00", call.getBegin_Time());
     assertEquals("07/17/2024", call.getEndDate());
-    assertEquals("11:00", call.getEndTime());
+    assertEquals("11:00", call.getEnd_Time());
   }
 }
