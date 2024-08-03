@@ -27,17 +27,18 @@ public class PhoneCallTest {
    * This unit test will need to be modified (likely deleted) as you implement
    * your project.
    */
+  /*
   @Test
   void initiallyAllPhoneCallsHaveTheSameCallee() {
-    //PhoneCall call = new PhoneCall();
-    //assertThat(call.getCallee(), containsString("not implemented"));
+    PhoneCall call = new PhoneCall();
+    assertThat(call.getCallee(), containsString("not implemented"));
   }
 
   @Test
   void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
-    //PhoneCall call = new PhoneCall();
-    //assertThat(call.getBeginTime(), is(nullValue()));
-  }
+    PhoneCall call = new PhoneCall();
+    assertThat(call.getBeginTime(), is(nullValue()));
+  }*/
   @Test
   public void testPhoneCallConstructor() {
     PhoneCall call = new PhoneCall("John Doe", "1234567890", "9876543210", "07/17/2024", "10:00", "07/17/2024", "11:00");

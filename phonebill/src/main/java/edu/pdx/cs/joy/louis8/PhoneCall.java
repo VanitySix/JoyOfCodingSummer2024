@@ -8,14 +8,23 @@ import java.time.format.DateTimeParseException;
 
 //test local
 public class PhoneCall extends AbstractPhoneCall {
-  private String customer;
-  private String callerNumber;
-  private String calleeNumber;
-  private String begin_date;
-  private String begin_time;
-  private String end_date;
-  private String end_time;
+  private final String customer;
+  private final String callerNumber;
+  private final String calleeNumber;
+  private final String begin_date;
+  private final String begin_time;
+  private final String end_date;
+  private final String end_time;
 
+  public PhoneCall(){
+    this.customer = null;
+    this.callerNumber = null;
+    this.calleeNumber = null;
+    this.begin_date = null;
+    this.begin_time = null;
+    this.end_date = null;
+    this.end_time = null;
+  }
   public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time) {
     this.customer = customer;
     this.callerNumber = callerNumber;
