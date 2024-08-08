@@ -24,23 +24,6 @@ public class PhoneCallTest {
   }
 
   /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
-   */
-  /*
-  @Test
-  void initiallyAllPhoneCallsHaveTheSameCallee() {
-    PhoneCall call = new PhoneCall();
-    assertThat(call.getCallee(), containsString("not implemented"));
-  }
-
-  @Test
-  void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
-    PhoneCall call = new PhoneCall();
-    assertThat(call.getBeginTime(), is(nullValue()));
-  }*/
-
-  /**
    * Create new PhoneCall given all arguments
    */
   @Test
@@ -56,4 +39,25 @@ public class PhoneCallTest {
     assertEquals("07/17/2024", call.getEndDate());
     assertEquals("11:00", call.getEnd_Time());
   }
+  @Test
+  public void testPhoneCallConstructorWithPrintArgument() {
+    // toString()
+    // return "Phone call from " + this.getCaller() + " to " + this.getCallee() + " from " + this.getBeginTimeString() + " to " + this.getEndTimeString();
+    String expectedOutput = "Phone call from John Doe to 9876543210 from 07/17/2024 10:00 to 07/17/2024 11:00";
+    PhoneCall call = new PhoneCall("John Doe", "1234567890", "9876543210", "07/17/2024", "10:00", "07/17/2024", "11:00","-print");
+    assertNotNull(call);
+    assertEquals("John Doe", call.getCaller());
+    assertEquals("1234567890", call.getCallerNumber());
+    assertEquals("9876543210", call.getCalleeNumber());
+    assertEquals("07/17/2024", call.getBeginDate());
+    assertEquals("10:00", call.getBegin_Time());
+    assertEquals("07/17/2024", call.getEndDate());
+    assertEquals("11:00", call.getEnd_Time());
+    assertEquals(expectedOutput,call.toString());
+  }
+
+
+
+
 }
+

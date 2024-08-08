@@ -20,41 +20,51 @@ public class Project1 {
     String begin_time = args[4];
     String end_date = args[5];
     String end_time = args[6];
+    boolean printOption = false;
+    boolean readMeOption = false;
+    int nonOptionArgs = 0;
 
+    // Check if print or README exists in command line
+    // Count the number of non option arguments
+    for (String arg : args) {
+      if (arg.equals("-print")) {
+        printOption = true;
+      } else if (arg.equals("-README")) {
+        readMeOption = true;
+      }
+      else {
+        ++nonOptionArgs;
+      }
+    }
 
-    PhoneCall call = new PhoneCall(a_customer,a_callerNumber,a_calleeNumber,begin_date,begin_time,end_date,end_time);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+    // Create Phone call (call) and add to Phone bill (bill)
+    PhoneCall call = new PhoneCall(a_customer,a_callerNumber,a_calleeNumber,begin_date,begin_time,end_date,end_time,printOption,readMeOption);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     PhoneBill bill = new PhoneBill(a_customer);
-
-    System.out.println("-----");
-    System.out.println(args[6]);
-    System.out.println("-----");
-
     bill.addPhoneCall(call);
 
-    //if(begin_date)
-    /*
-    // Display list
-    for (PhoneCall list : bill.getPhoneCalls()) {
-      System.out.println(list.getCaller());
-    }*/
-/*
-    String test = call.getCaller();
-    System.out.println(test);
-
-    PhoneBill bill = new PhoneBill(a_customer);
-
-    bill.addPhoneCall(call);*/
-
-
-    if(args.length > 7) {
-      System.err.println("Too many command line arguments");
-    } else {
-      System.err.println("Missing command line arguments");
+    // Call toString method of call if "print" exists in command line
+    if(printOption)
+    {
+      System.out.println(call.toString());
     }
-    /*for (String arg : args) {
+
+
+    if(nonOptionArgs > 7) {
+      System.err.println("Too many command line arguments");
+      return;
+    } else if (nonOptionArgs < 7) {
+      System.err.println("Missing command line arguments");
+      return;
+    }
+
+    /*
+    * TEST:Print all arguments
+    for (String arg : args) {
       System.out.println(arg);
     }*/
 
+    // Reaches user interface if the command line has 7 non option arguments
+    // User interface
     System.out.println("usage: java -jar target/phonebill-1.0.0.jar [options] <args>");
     System.out.println("args are (in this order):");
     System.out.println("customer     Person whose phone bill we’re modeling");
@@ -66,6 +76,8 @@ public class Project1 {
     System.out.println("-print       Prints a description of the new phone call");
     System.out.println("-README      Prints a README for this project and exits");
     System.out.println("Date and time should be in the format: mm/dd/yyyy hh:mm");
+
+
 
    // call.getCaller();
   }

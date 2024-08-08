@@ -23,8 +23,13 @@ public class PhoneCall extends AbstractPhoneCall {
   private final String begin_time;
   private final String end_date;
   private final String end_time;
+  private final boolean printOption;
+  private final boolean readMeOption;
 
-  public PhoneCall(){
+  /**
+   * Non-optional constructor
+   */
+  public PhoneCall() {
     this.customer = null;
     this.callerNumber = null;
     this.calleeNumber = null;
@@ -32,17 +37,20 @@ public class PhoneCall extends AbstractPhoneCall {
     this.begin_time = null;
     this.end_date = null;
     this.end_time = null;
+    this.printOption = false;
+    this.readMeOption = false;
   }
+
   /**
-   * Creates a new PhoneCall with the specified details.
+   * Creates a new non-optional PhoneCall with the specified details.
    *
-   * @param customer Customer name
+   * @param customer     Customer name
    * @param callerNumber Caller phone number
    * @param calleeNumber Callee phone number
-   * @param begin_date The begin date of the call in the format "MM/dd/yyyy".
-   * @param begin_time The begin time of the call in the format "HH:mm".
-   * @param end_date The end date of the call in the format "MM/dd/yyyy".
-   * @param end_time The end time of the call in the format "HH:mm".
+   * @param begin_date   The begin date of the call in the format "MM/dd/yyyy".
+   * @param begin_time   The begin time of the call in the format "HH:mm".
+   * @param end_date     The end date of the call in the format "MM/dd/yyyy".
+   * @param end_time     The end time of the call in the format "HH:mm".
    */
   public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time) {
     this.customer = customer;
@@ -52,15 +60,82 @@ public class PhoneCall extends AbstractPhoneCall {
     this.begin_time = begin_time;
     this.end_date = end_date;
     this.end_time = end_time;
+    this.printOption = false;
+    this.readMeOption = false;
+  }
+
+  /**
+   * Creates a new PhoneCall including both options
+   *
+   * @param customer     Customer name
+   * @param callerNumber Caller phone number
+   * @param calleeNumber Callee phone number
+   * @param begin_date   The begin date of the call in the format "MM/dd/yyyy".
+   * @param begin_time   The begin time of the call in the format "HH:mm".
+   * @param end_date     The end date of the call in the format "MM/dd/yyyy".
+   * @param end_time     The end time of the call in the format "HH:mm".
+   * @param printOption  The print option exists
+   * @param readMeOption The read me option also exists
+   */
+  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time, boolean printOption, boolean readMeOption) {
+    this.customer = customer;
+    this.callerNumber = callerNumber;
+    this.calleeNumber = calleeNumber;
+    this.begin_date = begin_date;
+    this.begin_time = begin_time;
+    this.end_date = end_date;
+    this.end_time = end_time;
+    this.printOption = printOption;
+    this.readMeOption = readMeOption;
   }
   /**
- * @return customer name string
- */
+   * Creates a new PhoneCall but only one option exists.
+   * Checks what option was passed into the function and set data correctly
+   *
+   * @param customer     Customer name
+   * @param callerNumber Caller phone number
+   * @param calleeNumber Callee phone number
+   * @param begin_date   The begin date of the call in the format "MM/dd/yyyy".
+   * @param begin_time   The begin time of the call in the format "HH:mm".
+   * @param end_date     The end date of the call in the format "MM/dd/yyyy".
+   * @param end_time     The end time of the call in the format "HH:mm".
+   * @param option  Only the print option exists
+   */
+
+  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time, String option) {
+    this.customer = customer;
+    this.callerNumber = callerNumber;
+    this.calleeNumber = calleeNumber;
+    this.begin_date = begin_date;
+    this.begin_time = begin_time;
+    this.end_date = end_date;
+    this.end_time = end_time;
+
+    if(option.equals("-print"))
+    {
+      this.printOption = true;
+      this.readMeOption = false;
+    }
+    else if(option.equals("-readme"))
+    {
+      this.readMeOption = true;
+      this.printOption = false;
+    }
+    else {
+      this.printOption = false;
+      this.readMeOption = false;
+    }
+  }
+
+  /**
+   * @return customer name string
+   */
   @Override
   public String getCaller() {
     //throw new UnsupportedOperationException("This method is not implemented yet");
     return customer;
   }
+
   /**
    * @return calleeNumber string
    */
@@ -69,6 +144,7 @@ public class PhoneCall extends AbstractPhoneCall {
     //return "This method is not implemented yet";
     return calleeNumber;
   }
+
   /**
    * Returns the start date and time of the call
    *
@@ -77,8 +153,9 @@ public class PhoneCall extends AbstractPhoneCall {
   @Override
   public String getBeginTimeString() {
     //throw new UnsupportedOperationException("This method is not implemented yet");
-    return begin_date + ", " + begin_time;
+    return this.begin_date + " " + this.begin_time;
   }
+
   /**
    * Returns the end date and time of the call
    *
@@ -87,8 +164,9 @@ public class PhoneCall extends AbstractPhoneCall {
   @Override
   public String getEndTimeString() {
     //throw new UnsupportedOperationException("This method is not implemented yet");
-    return end_date + ", " + end_time;
+    return this.end_date + " " + this.end_time;
   }
+
   /**
    * Individual getter methods to PhoneCall data
    * Function a bit redundant
@@ -100,7 +178,6 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   *
    * @return callerNumber
    */
   public String getCallerNumber() {
@@ -108,7 +185,6 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   *
    * @return calleeNumber
    */
   public String getCalleeNumber() {
@@ -116,7 +192,6 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   *
    * @return begin_date
    */
   public String getBeginDate() {
@@ -124,7 +199,6 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   *
    * @return begin_time
    */
   public String getBegin_Time() {
@@ -132,7 +206,6 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   *
    * @return end_date
    */
   public String getEndDate() {
@@ -140,7 +213,6 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   *
    * @return end_time
    */
   public String getEnd_Time() {
@@ -148,6 +220,7 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
+   * Function takes in a date and determines if the format is valid
    *
    * @param date Date from argument line
    * @return true if the date format is correct
@@ -163,13 +236,15 @@ public class PhoneCall extends AbstractPhoneCall {
     }
 
   }
-
+}
+/*
   /**
    *
    * @param callerNumber
    * @param calleeNumber
    * @return
    */
+  /*
   public boolean validatePhoneNumber(String callerNumber, String calleeNumber) {
 
     if (callerNumber.length() != 12 || calleeNumber.length() != 12) // Length includes hyphens
@@ -181,3 +256,4 @@ public class PhoneCall extends AbstractPhoneCall {
 
   }
 }
+*/
