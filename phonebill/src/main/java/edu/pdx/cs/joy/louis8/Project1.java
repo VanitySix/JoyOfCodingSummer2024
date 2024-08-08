@@ -78,8 +78,6 @@ public class Project1 {
     System.out.println("Date and time should be in the format: mm/dd/yyyy hh:mm");
 
 
-
-   // call.getCaller();
   }
 
 }
