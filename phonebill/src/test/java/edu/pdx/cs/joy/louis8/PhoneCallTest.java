@@ -39,6 +39,10 @@ public class PhoneCallTest {
     PhoneCall call = new PhoneCall();
     assertThat(call.getBeginTime(), is(nullValue()));
   }*/
+
+  /**
+   * Create new PhoneCall given all arguments
+   */
   @Test
   public void testPhoneCallConstructor() {
     PhoneCall call = new PhoneCall("John Doe", "1234567890", "9876543210", "07/17/2024", "10:00", "07/17/2024", "11:00");
