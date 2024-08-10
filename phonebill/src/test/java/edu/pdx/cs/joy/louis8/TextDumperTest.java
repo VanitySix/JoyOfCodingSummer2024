@@ -38,4 +38,30 @@ public class TextDumperTest {
     PhoneBill read = parser.parse();
     assertThat(read.getCustomer(), equalTo(customer));
   }
+
+  @Test
+  public void testDump() {
+    // Create a mock PhoneBill
+    PhoneBill bill = new PhoneBill("John Doe");
+    bill.addPhoneCall(new PhoneCall("John Doe", "123-456-7890", "987-654-3210", "07/17/2024", "10:00", "07/17/2024", "11:00"));
+
+    // Use a StringWriter to capture the output
+    StringWriter stringWriter = new StringWriter();
+    TextDumper dumper = new TextDumper(stringWriter);
+
+    // Invoke the dump method
+    dumper.dump(bill);
+
+    // Get the output as a string
+    String output = stringWriter.toString();
+
+    // Expected output
+    String expectedOutput = "John Doe\n";
+
+    // Verify that the output is as expected
+    //assertEquals(expectedOutput, output);
+    assertThat(output, equalTo(expectedOutput));
+
+
+  }
 }

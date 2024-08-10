@@ -37,16 +37,15 @@ public class Project1 {
       }
     }
 
+    if(readMeOption) {
+      // Readme
+    }
+
     // Create Phone call (call) and add to Phone bill (bill)
     PhoneCall call = new PhoneCall(a_customer,a_callerNumber,a_calleeNumber,begin_date,begin_time,end_date,end_time,printOption,readMeOption);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     PhoneBill bill = new PhoneBill(a_customer);
     bill.addPhoneCall(call);
-
-    // Call toString method of call if "print" exists in command line
-    if(printOption)
-    {
-      System.out.println(call.toString());
-    }
+    System.out.println(bill.toString());
 
 
     if(nonOptionArgs > 7) {
@@ -77,7 +76,12 @@ public class Project1 {
     System.out.println("-README      Prints a README for this project and exits");
     System.out.println("Date and time should be in the format: mm/dd/yyyy hh:mm");
 
-
+    // Call toString method of call if "print" exists in command line
+    if(printOption)
+    {
+      System.out.println();
+      System.out.println(call.toString());
+    }
   }
 
 }

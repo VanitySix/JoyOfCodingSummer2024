@@ -226,16 +226,20 @@ public class PhoneCall extends AbstractPhoneCall {
    * @return true if the date format is correct
    */
   public boolean validateDataTime(String date) {
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("M/d/yyyy H:mm");
-
+    DateTimeFormatter format1 = DateTimeFormatter.ofPattern("M/d/yyyy H:mm");
+    DateTimeFormatter format2 = DateTimeFormatter.ofPattern("MM/d/yyyy HH:mm");
+    DateTimeFormatter format3 = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm");
+    DateTimeFormatter format4 = DateTimeFormatter.ofPattern("MM/d/yyyy H:mm");
+/*
     try {
       LocalDateTime.parse(date, format);
       return true;
     } catch (DateTimeParseException e) {
       return false;
-    }
-
+    }*/
+return false;
   }
+
 }
 /*
   /**
