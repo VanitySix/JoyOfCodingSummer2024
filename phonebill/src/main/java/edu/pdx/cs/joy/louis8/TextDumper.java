@@ -18,13 +18,23 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
   }
 
   @Override
-  public void dump(PhoneBill bill) {
-    try (
-      PrintWriter pw = new PrintWriter(this.writer)
-    ) {
-      pw.println(bill.getCustomer());
+  public void dump(PhoneBill bill) throws IOException {
+    try (PrintWriter pw = new PrintWriter(this.writer)) {
+      // Write the customer name
+      pw.println(/*"Customer: " + */bill.getCustomer());
 
+      /*
+      // Iterate through the phone calls and write them to the file
+      for (PhoneCall call : bill.getPhoneCalls()) {
+        pw.println("Call: " + call.getCaller() + " " +
+                call.getCallee() + " " +
+                call.getBeginTimeString() + " " +
+                call.getEndTimeString());
+      }*/
+
+      // Ensure all data is written to the file
       pw.flush();
     }
   }
-}
+  }
+

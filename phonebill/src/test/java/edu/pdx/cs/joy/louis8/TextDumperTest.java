@@ -19,7 +19,12 @@ public class TextDumperTest {
 
     StringWriter sw = new StringWriter();
     TextDumper dumper = new TextDumper(sw);
-    dumper.dump(bill);
+    //dumper.dump(bill);
+    try {
+      dumper.dump(bill);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     String text = sw.toString();
     assertThat(text, containsString(customer));
@@ -31,8 +36,10 @@ public class TextDumperTest {
     PhoneBill bill = new PhoneBill(customer);
 
     File textFile = new File(tempDir, "apptbook.txt");
-    TextDumper dumper = new TextDumper(new FileWriter(textFile));
-    dumper.dump(bill);
+    try (FileWriter fileWriter = new FileWriter(textFile)) {
+      TextDumper dumper = new TextDumper(fileWriter);
+      dumper.dump(bill);
+    }
 
     TextParser parser = new TextParser(new FileReader(textFile));
     PhoneBill read = parser.parse();
@@ -50,7 +57,11 @@ public class TextDumperTest {
     TextDumper dumper = new TextDumper(stringWriter);
 
     // Invoke the dump method
-    dumper.dump(bill);
+    try {
+      dumper.dump(bill);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     // Get the output as a string
     String output = stringWriter.toString();
