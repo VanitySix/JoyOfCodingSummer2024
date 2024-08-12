@@ -88,6 +88,7 @@ public class PhoneCall extends AbstractPhoneCall {
     this.printOption = printOption;
     this.readMeOption = readMeOption;
   }
+
   /**
    * Creates a new PhoneCall but only one option exists.
    * Checks what option was passed into the function and set data correctly
@@ -99,7 +100,7 @@ public class PhoneCall extends AbstractPhoneCall {
    * @param begin_time   The begin time of the call in the format "HH:mm".
    * @param end_date     The end date of the call in the format "MM/dd/yyyy".
    * @param end_time     The end time of the call in the format "HH:mm".
-   * @param option  Only the print option exists
+   * @param option       Only the print option exists
    */
 
   public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time, String option) {
@@ -111,17 +112,13 @@ public class PhoneCall extends AbstractPhoneCall {
     this.end_date = end_date;
     this.end_time = end_time;
 
-    if(option.equals("-print"))
-    {
+    if (option.equals("-print")) {
       this.printOption = true;
       this.readMeOption = false;
-    }
-    else if(option.equals("-readme"))
-    {
+    } else if (option.equals("-readme")) {
       this.readMeOption = true;
       this.printOption = false;
-    }
-    else {
+    } else {
       this.printOption = false;
       this.readMeOption = false;
     }
@@ -237,27 +234,13 @@ public class PhoneCall extends AbstractPhoneCall {
     } catch (DateTimeParseException e) {
       return false;
     }*/
-return false;
-  }
 
-}
-/*
-  /**
-   *
-   * @param callerNumber
-   * @param calleeNumber
-   * @return
-   */
-  /*
-  public boolean validatePhoneNumber(String callerNumber, String calleeNumber) {
-
-    if (callerNumber.length() != 12 || calleeNumber.length() != 12) // Length includes hyphens
-    {
-      return false;
-    }
-
-    return true;
-
+    return false;
   }
 }
-*/
+
+
+
+
+
+

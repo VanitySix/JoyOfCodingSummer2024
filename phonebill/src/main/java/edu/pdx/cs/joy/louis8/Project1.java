@@ -2,6 +2,14 @@ package edu.pdx.cs.joy.louis8;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+
 /**
  * The main class for the Phone Bill Project
  */
@@ -13,13 +21,6 @@ public class Project1 {
   }
 
   public static void main(String[] args) {
-    String a_customer = args[0];
-    String a_callerNumber = args[1];
-    String a_calleeNumber = args[2];
-    String begin_date = args[3];
-    String begin_time = args[4];
-    String end_date = args[5];
-    String end_time = args[6];
     boolean printOption = false;
     boolean readMeOption = false;
     int nonOptionArgs = 0;
@@ -37,30 +38,56 @@ public class Project1 {
       }
     }
 
+    validateArgNumber(nonOptionArgs);
+
+    try {
+      // Variables to track the command line arguments
+      String a_customer = args[0];
+      String a_callerNumber = args[1];
+      String a_calleeNumber = args[2];
+      String begin_date = args[3];
+      String begin_time = args[4];
+      String end_date = args[5];
+      String end_time = args[6];
+
+
+      String phoneErrorMsg = validatePhoneNumber(a_callerNumber,a_calleeNumber);
+      validateDateTime(begin_date + " " + begin_time);
+      validateDateTime(end_date + " " + end_time);
+
+      if(!phoneErrorMsg.equals("Correct.")) {
+        System.err.println(phoneErrorMsg);
+      }
+
+      // Create Phone call (call) and add to Phone bill (bill)
+      PhoneCall call = new PhoneCall(a_customer, a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+      PhoneBill bill = new PhoneBill(a_customer);
+      bill.addPhoneCall(call);
+
+      // Call toString method of call if "print" exists in command line
+      if(printOption)
+      {
+        System.out.println();
+        System.out.println(call.toString());
+      }
+
+      // Creating file objects and saving it in the .txt file
+      String directoryPath = "phoneBill";
+      String fileName = "phoneDataBase.txt";
+
+      File directory = new File(directoryPath);
+      File file = new File(directory,fileName);
+
+      writePhoneBill(bill,file);
+      writePhoneCall(call,file);
+
+    } catch (Exception e) {
+      System.err.println("Error" + e.getMessage());
+    }
+
     if(readMeOption) {
-      // Readme
+      // Readme to be implemented
     }
-
-    // Create Phone call (call) and add to Phone bill (bill)
-    PhoneCall call = new PhoneCall(a_customer,a_callerNumber,a_calleeNumber,begin_date,begin_time,end_date,end_time,printOption,readMeOption);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-    PhoneBill bill = new PhoneBill(a_customer);
-    bill.addPhoneCall(call);
-    System.out.println(bill.toString());
-
-
-    if(nonOptionArgs > 7) {
-      System.err.println("Too many command line arguments");
-      return;
-    } else if (nonOptionArgs < 7) {
-      System.err.println("Missing command line arguments");
-      return;
-    }
-
-    /*
-    * TEST:Print all arguments
-    for (String arg : args) {
-      System.out.println(arg);
-    }*/
 
     // Reaches user interface if the command line has 7 non option arguments
     // User interface
@@ -76,12 +103,118 @@ public class Project1 {
     System.out.println("-README      Prints a README for this project and exits");
     System.out.println("Date and time should be in the format: mm/dd/yyyy hh:mm");
 
-    // Call toString method of call if "print" exists in command line
-    if(printOption)
-    {
-      System.out.println();
-      System.out.println(call.toString());
+
+  }
+
+  /**
+   * Check if command line have a sufficient amount of arguments.
+   *
+   * @param nonOptionArgs The number of arguments excluding options in a command line.
+   */
+  public static void validateArgNumber(int nonOptionArgs){
+    if(nonOptionArgs > 7) {
+      System.err.println("Too many command line arguments");
+    } else if (nonOptionArgs < 7) {
+      System.err.println("Missing command line arguments");
     }
   }
+  /**
+   * Verify that the phone numbers are correctly formatted. Send error message if input is incorrect.
+   *
+   * @param callerNumber Caller number
+   * @param calleeNumber Callee number
+   */
+  public static String validatePhoneNumber(String callerNumber, String calleeNumber){
+
+    // An expression to match the phone number format
+    String phoneFormat = "\\d{3}-\\d{3}-\\d{4}";
+
+    if(!(callerNumber.matches(phoneFormat) && calleeNumber.matches(phoneFormat))){
+      return ("The format of the phone number is incorrect. Phone numbers have the form nnn-nnn-nnnn where n is a number 0-9.");
+    }
+
+    return "Correct.";
+  }
+  private static final Pattern DATE_TIME_PATTERN = Pattern.compile(
+          "^([1-9]|0[1-9]|1[0-2])/([1-9]|0[1-9]|[12][0-9]|3[01])/\\d{4} ([0-9]|[0-1][0-9]|2[0-3]):[0-5][0-9]$"
+
+
+  );
+
+  public static boolean validateDateTime(String dateTime) {
+    Matcher matcher = DATE_TIME_PATTERN.matcher(dateTime);
+    return matcher.matches();
+  }
+
+
+  /**
+   * This function will take in a PhoneBill and File object. It will save and write the PhoneBill's data to the File object
+   * If text file does not exist, a new one will be created and will add the phone call described on the commandline
+   * and write its contents to the text file.
+   *
+   * @param bill PhoneBill consists of phone calls and will be written to the .txt file
+   * @param file File object referring to phoneDataBase.txt
+   */
+  protected static void writePhoneBill(PhoneBill bill, File file) {
+    String directoryPath = "phoneBill";
+    String fileName = "phoneDataBase.txt";
+
+    File directory = new File(directoryPath);
+
+    // Make sure directory exists otherwise error message
+    if (!directory.exists()) {
+      boolean dirCreated = directory.mkdirs(); // Creates the directory if it doesn't exist
+      if (!dirCreated) {
+        System.err.println("Failed to create directory: " + directoryPath);
+        return;
+      }
+    }
+
+    // Write the phone bill to the file with append mode
+    try (PrintWriter pw = new PrintWriter(new FileWriter(file, true))) { // Append mode enabled
+      pw.println(bill.toString());
+    } catch (IOException e) {
+      System.err.println("Failed to save phone bill: " + e.getMessage());
+    }
+
+    /*
+    // Overwrite testing
+    try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+      pw.println(bill.toString());
+    } catch (IOException e) {
+      System.err.println("Failed to save phone bill: " + e.getMessage());
+    }*/
+  }
+  protected static void writePhoneCall(PhoneCall call, File file) {
+    String directoryPath = "phoneBill";
+    String fileName = "phoneDataBase.txt";
+
+    File directory = new File(directoryPath);
+
+    // Make sure directory exists otherwise error message
+    if (!directory.exists()) {
+      boolean dirCreated = directory.mkdirs(); // Creates the directory if it doesn't exist
+      if (!dirCreated) {
+        System.err.println("Failed to create directory: " + directoryPath);
+        return;
+      }
+    }
+
+    // Write the phone bill to the file with append mode
+    try (PrintWriter pw = new PrintWriter(new FileWriter(file, true))) { // Append mode enabled
+      pw.println(call.toString());
+    } catch (IOException e) {
+      System.err.println("Failed to write phone call: " + e.getMessage());
+    }
+
+    /*
+    // Overwrite testing
+    try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+      pw.println(bill.toString());
+    } catch (IOException e) {
+      System.err.println("Failed to save phone bill: " + e.getMessage());
+    }*/
+  }
+
 
 }

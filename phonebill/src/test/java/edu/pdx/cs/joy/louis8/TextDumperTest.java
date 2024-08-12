@@ -46,33 +46,35 @@ public class TextDumperTest {
     assertThat(read.getCustomer(), equalTo(customer));
   }
 
-  @Test
-  public void testDump() {
-    // Create a mock PhoneBill
-    PhoneBill bill = new PhoneBill("John Doe");
-    bill.addPhoneCall(new PhoneCall("John Doe", "123-456-7890", "987-654-3210", "07/17/2024", "10:00", "07/17/2024", "11:00"));
+    @Test
+    public void testDump() {
+      // Create a mock PhoneBill
+      PhoneBill bill = new PhoneBill("John Doe");
+      bill.addPhoneCall(new PhoneCall("John Doe", "123-456-7890", "987-654-3210", "07/17/2024", "10:00", "07/17/2024", "11:00"));
 
-    // Use a StringWriter to capture the output
-    StringWriter stringWriter = new StringWriter();
-    TextDumper dumper = new TextDumper(stringWriter);
+      // Use a StringWriter to capture the output
+      StringWriter stringWriter = new StringWriter();
+      TextDumper dumper = new TextDumper(stringWriter);
 
-    // Invoke the dump method
-    try {
-      dumper.dump(bill);
-    } catch (IOException e) {
-      e.printStackTrace();
+      // Invoke the dump method
+      try {
+        dumper.dump(bill);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
+      // Get the output as a string
+      String output = stringWriter.toString();
+      // /r\n output for windows users
+      String output2 = output.replace("\r\n","\n").replace("\r","\n");
+
+      // Expected output
+      String expectedOutput = "John Doe\n";
+
+      // Verify that the output is as expected
+      //assertEquals(expectedOutput, output);
+      assertThat(output2, equalTo(expectedOutput));
+
+
     }
-
-    // Get the output as a string
-    String output = stringWriter.toString();
-
-    // Expected output
-    String expectedOutput = "John Doe\n";
-
-    // Verify that the output is as expected
-    //assertEquals(expectedOutput, output);
-    assertThat(output, equalTo(expectedOutput));
-
-
-  }
 }
