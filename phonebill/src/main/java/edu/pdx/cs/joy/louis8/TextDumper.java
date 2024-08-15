@@ -19,22 +19,23 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
 
   @Override
   public void dump(PhoneBill bill) throws IOException {
-    try (PrintWriter pw = new PrintWriter(this.writer)) {
-      // Write the customer name
-      pw.println(/*"Customer: " + */bill.getCustomer());
+    // Write the customer name, allows old test cases to work but I'm currently changing text file format
+    //writer.write(bill.getCustomer() + "\n");
 
-      /*
-      // Iterate through the phone calls and write them to the file
-      for (PhoneCall call : bill.getPhoneCalls()) {
-        pw.println("Call: " + call.getCaller() + " " +
-                call.getCallee() + " " +
-                call.getBeginTimeString() + " " +
-                call.getEndTimeString());
-      }*/
-
-      // Ensure all data is written to the file
-      pw.flush();
+    // Write each phone call
+    for (PhoneCall call : bill.getPhoneCalls()) {
+      writer.write(String.format("%s %s %s %s %s %s %s\n",
+              call.getCustomer(),
+              call.getCallerNumber(),
+              call.getCalleeNumber(),
+              call.getBeginDate(),
+              call.getBegin_Time(),
+              call.getEndDate(),
+              call.getEnd_Time()));
     }
+
+    // Flush and close the writer
+    writer.flush();
   }
   }
 

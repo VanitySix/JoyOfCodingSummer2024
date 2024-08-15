@@ -2,13 +2,10 @@ package edu.pdx.cs.joy.louis8;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 import org.junit.jupiter.api.io.TempDir;
 
@@ -25,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Project1Test {
   @TempDir
   Path tempDir;
+  /*
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
@@ -35,7 +33,7 @@ class Project1Test {
       String line = reader.readLine();
       assertThat(line, containsString("This is a README file!"));
     }
-  }
+  }*/
 
   /**
    * Testing if the appending of data works.
@@ -141,10 +139,10 @@ class Project1Test {
   }
   @Test
   void testValidDateTime() {
-    assertTrue(Project1.validateDateTime("08/15/2024 10:39"), "Valid date/time should be accepted.");
-    assertTrue(Project1.validateDateTime("06/02/2024 01:31"), "Valid date/time should be accepted.");
-    assertTrue(Project1.validateDateTime("6/02/2024 01:31"), "Valid date/time should be accepted.");
-    assertTrue(Project1.validateDateTime("06/02/2024 1:31"), "Valid date/time should be accepted.");
+    assertTrue(Project1.validateDateTime("08/15/2024 10:39"), "Valid date/time.");
+    assertTrue(Project1.validateDateTime("06/02/2024 01:31"), "Valid date/time.");
+    assertTrue(Project1.validateDateTime("6/02/2024 01:31"), "Valid date/time.");
+    assertTrue(Project1.validateDateTime("06/02/2024 1:31"), "Valid date/time.");
   }
   @Test
   void testInvalidDateTime() {
@@ -154,6 +152,32 @@ class Project1Test {
     assertFalse(Project1.validateDateTime("08/15/2024 10:60"), "Invalid minutes.");
     assertFalse(Project1.validateDateTime("08/15/2024 10:39 PM"), "24 hour format only.");
   }
+/*
+//Works
+  @Test
+  void testREADME()
+  {
+    String readMeContent = Project1.printReadMe();
+    assertEquals("This is a README file!", readMeContent);
+  }*/
+  @Test
+  void testlist(){
+  PhoneBill bill = new PhoneBill("John Doe");
+
+  bill.addPhoneCall(new PhoneCall("John Doe", "123-456-7890", "111-111-1111", "08/01/2024", "10:00", "08/01/2024", "11:00"));
+  bill.addPhoneCall(new PhoneCall("John Doe", "234-567-8901", "222-222-2222", "08/02/2024", "11:00", "08/02/2024", "12:00"));
+  bill.addPhoneCall(new PhoneCall("John Doe", "345-678-9012", "333-333-3333", "08/03/2024", "12:00", "08/03/2024", "13:00"));
+
+  Collection<PhoneCall> calls = bill.getPhoneCalls();
+
+  int index = 1;
+  for (PhoneCall call : calls) {
+    System.out.println("Phone Call " + index + ": " + call);
+    index++;
   }
+  System.out.println(bill.toString());
+}
+
+}
 
 

@@ -31,4 +31,5 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
   public Collection<PhoneCall> getPhoneCalls() {
     return this.phonecalls;
   }
+
 }
