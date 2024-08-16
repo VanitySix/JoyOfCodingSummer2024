@@ -10,10 +10,10 @@
     <menu ref="modules"/>
     <menu ref="reports"/>
   </body>
-  <custom>
+  <custom>itesearch/>
     <fluidoSkin>
       <googleSearch>
-        <sitesearch/>
+        <s
       </googleSearch>
       <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
       <gitHub>

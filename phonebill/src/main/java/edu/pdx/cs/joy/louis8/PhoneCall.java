@@ -2,15 +2,11 @@ package edu.pdx.cs.joy.louis8;
 
 import edu.pdx.cs.joy.AbstractPhoneCall;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 import java.time.format.DateTimeFormatter;
 
-import java.time.format.DateTimeParseException;
-
+import java.time.format.FormatStyle;
 
 
 //test local
@@ -22,12 +18,12 @@ public class PhoneCall extends AbstractPhoneCall {
   private final String customer;
   private final String callerNumber;
   private final String calleeNumber;
-  private final String begin_date;
-  private final String begin_time;
-  private final String end_date;
-  private final String end_time;
+  final LocalDateTime beginDateTime;
+  final LocalDateTime endDateTime;
   private final boolean printOption;
   private final boolean readMeOption;
+  //private LocalDateTime beginTime;
+  //private LocalDateTime endTime;
 
   /**
    * Non-optional constructor
@@ -36,33 +32,25 @@ public class PhoneCall extends AbstractPhoneCall {
     this.customer = null;
     this.callerNumber = null;
     this.calleeNumber = null;
-    this.begin_date = null;
-    this.begin_time = null;
-    this.end_date = null;
-    this.end_time = null;
+    //this.begin_date = null;
+    this.beginDateTime = null;
+    //this.end_date = null;
+    this.endDateTime = null;
     this.printOption = false;
     this.readMeOption = false;
   }
 
-  /**
-   * Creates a new non-optional PhoneCall with the specified details.
-   *
-   * @param customer     Customer name
-   * @param callerNumber Caller phone number
-   * @param calleeNumber Callee phone number
-   * @param begin_date   The begin date of the call in the format "MM/dd/yyyy".
-   * @param begin_time   The begin time of the call in the format "HH:mm".
-   * @param end_date     The end date of the call in the format "MM/dd/yyyy".
-   * @param end_time     The end time of the call in the format "HH:mm".
-   */
-  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time) {
+
+  public PhoneCall(String customer, String callerNumber, String calleeNumber, LocalDateTime beginTime, LocalDateTime endTime) {
     this.customer = customer;
     this.callerNumber = callerNumber;
     this.calleeNumber = calleeNumber;
-    this.begin_date = begin_date;
-    this.begin_time = begin_time;
-    this.end_date = end_date;
-    this.end_time = end_time;
+    //this.begin_date = begin_date;
+    //this.beginTime = beginTime;
+    //this.end_date = end_date;
+    //this.endTime = end_time;
+    this.beginDateTime = beginTime;
+    this.endDateTime = endTime;
     this.printOption = false;
     this.readMeOption = false;
   }
@@ -74,23 +62,24 @@ public class PhoneCall extends AbstractPhoneCall {
    * @param callerNumber Caller phone number
    * @param calleeNumber Callee phone number
    * @param begin_date   The begin date of the call in the format "MM/dd/yyyy".
-   * @param begin_time   The begin time of the call in the format "HH:mm".
+   * @param beginTime   The begin time of the call in the format "HH:mm".
    * @param end_date     The end date of the call in the format "MM/dd/yyyy".
    * @param end_time     The end time of the call in the format "HH:mm".
    * @param printOption  The print option exists
    * @param readMeOption The read me option also exists
    */
-  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time, boolean printOption, boolean readMeOption) {
+  /*
+  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, LocalDateTime beginTime, String end_date, LocalDateTime end_time, boolean printOption, boolean readMeOption) {
     this.customer = customer;
     this.callerNumber = callerNumber;
     this.calleeNumber = calleeNumber;
     this.begin_date = begin_date;
-    this.begin_time = begin_time;
+    this.beginTime = beginTime;
     this.end_date = end_date;
-    this.end_time = end_time;
+    this.endTime = end_time;
     this.printOption = printOption;
     this.readMeOption = readMeOption;
-  }
+  }*/
 
   /**
    * Creates a new PhoneCall but only one option exists.
@@ -100,20 +89,20 @@ public class PhoneCall extends AbstractPhoneCall {
    * @param callerNumber Caller phone number
    * @param calleeNumber Callee phone number
    * @param begin_date   The begin date of the call in the format "MM/dd/yyyy".
-   * @param begin_time   The begin time of the call in the format "HH:mm".
+   * @param beginTime   The begin time of the call in the format "HH:mm".
    * @param end_date     The end date of the call in the format "MM/dd/yyyy".
    * @param end_time     The end time of the call in the format "HH:mm".
    * @param option       Only the print option exists
    */
-
-  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, String begin_time, String end_date, String end_time, String option) {
+/*
+  public PhoneCall(String customer, String callerNumber, String calleeNumber, String begin_date, LocalDateTime beginTime, String end_date, LocalDateTime end_time, String option) {
     this.customer = customer;
     this.callerNumber = callerNumber;
     this.calleeNumber = calleeNumber;
     this.begin_date = begin_date;
-    this.begin_time = begin_time;
+    this.beginTime = beginTime;
     this.end_date = end_date;
-    this.end_time = end_time;
+    this.endTime = end_time;
 
     if (option.equals("-print")) {
       this.printOption = true;
@@ -125,7 +114,7 @@ public class PhoneCall extends AbstractPhoneCall {
       this.printOption = false;
       this.readMeOption = false;
     }
-  }
+  }*/
 
   /**
    * @return customer name string
@@ -152,8 +141,9 @@ public class PhoneCall extends AbstractPhoneCall {
    */
   @Override
   public String getBeginTimeString() {
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-    return this.begin_date + " " + this.begin_time;
+    //return this.begin_date + " " + this.begin_time;
+    DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+    return this.beginDateTime.format(formatter);
   }
 
   /**
@@ -163,8 +153,9 @@ public class PhoneCall extends AbstractPhoneCall {
    */
   @Override
   public String getEndTimeString() {
-    //throw new UnsupportedOperationException("This method is not implemented yet");
-    return this.end_date + " " + this.end_time;
+    //return this.end_date + " " + this.end_time;
+    DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+    return this.endDateTime.format(formatter);
   }
 
   /**
@@ -190,34 +181,33 @@ public class PhoneCall extends AbstractPhoneCall {
   public String getCalleeNumber() {
     return calleeNumber;
   }
-
-  /**
-   * @return begin_date
-   */
-  public String getBeginDate() {
-    return begin_date;
+  @Override
+  public LocalDateTime getBeginTime() {
+    return this.beginDateTime;
   }
 
-  /**
-   * @return begin_time
-   */
-  public String getBegin_Time() {
-    return begin_time;
+  @Override
+  public LocalDateTime getEndTime() {
+    return this.endDateTime;
   }
 
-  /**
-   * @return end_date
-   */
+/*
+
+  public LocalDateTime getBeginDate() {
+    return this.begin_date;
+  }
+
+  public LocalDateTime getBegin_Time() {
+    return beginTime;
+  }
+
   public String getEndDate() {
     return end_date;
   }
 
-  /**
-   * @return end_time
-   */
-  public String getEnd_Time() {
-    return end_time;
-  }
+  public LocalDateTime getEnd_Time() {
+    return endTime;
+  }*/
 
   /**
    * Function takes in a date and determines if the format is valid
@@ -226,17 +216,6 @@ public class PhoneCall extends AbstractPhoneCall {
    * @return true if the date format is correct
    */
   public boolean validateDataTime(String date) {
-    DateTimeFormatter format1 = DateTimeFormatter.ofPattern("M/d/yyyy H:mm");
-    DateTimeFormatter format2 = DateTimeFormatter.ofPattern("MM/d/yyyy HH:mm");
-    DateTimeFormatter format3 = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm");
-    DateTimeFormatter format4 = DateTimeFormatter.ofPattern("MM/d/yyyy H:mm");
-/*
-    try {
-      LocalDateTime.parse(date, format);
-      return true;
-    } catch (DateTimeParseException e) {
-      return false;
-    }*/
 
     return false;
   }

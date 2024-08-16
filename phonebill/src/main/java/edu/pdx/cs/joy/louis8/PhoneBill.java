@@ -2,6 +2,7 @@ package edu.pdx.cs.joy.louis8;
 
 import edu.pdx.cs.joy.AbstractPhoneBill;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import java.util.ArrayList;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
   private final String customer;
   private Collection <PhoneCall> phonecalls;
+
+  public interface PhoneBillDumper<T> {
+    void dump(T bill) throws IOException;
+  }
 
   public PhoneBill(String customer) {
     this.customer = customer;

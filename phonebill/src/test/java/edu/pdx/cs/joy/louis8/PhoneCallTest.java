@@ -2,6 +2,9 @@ package edu.pdx.cs.joy.louis8;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,32 +16,27 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PhoneCallTest {
 
-  /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
-   */
   @Test
-  void getBeginTimeStringNeedsToBeImplemented() {
-    //PhoneCall call = new PhoneCall();
-    //assertThrows(UnsupportedOperationException.class, call::getBeginTimeString);
-  }
+  void testFormatStyle()
+  {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+    LocalDateTime beginTime = LocalDateTime.parse("07/17/2024 10:00", formatter);
+    LocalDateTime endTime = LocalDateTime.parse("08/18/2024 11:00", formatter);
 
-  /**
-   * Create new PhoneCall given all arguments
-   */
-  @Test
-  public void testPhoneCallConstructor() {
-    PhoneCall call = new PhoneCall("John Doe", "123-456-7890", "987-654-3210", "07/17/2024", "10:00", "07/17/2024", "11:00");
-    // Add assertions to test the PhoneCall object
-    assertNotNull(call);
+    PhoneCall call = new PhoneCall("John Doe", "123-456-7890", "987-654-3210", beginTime, endTime);
+
+    System.out.println(beginTime);
+    System.out.println(endTime);
+
+    System.out.println(call.getBeginTimeString());
+    System.out.println(call.getEndTimeString());
     assertEquals("John Doe", call.getCaller());
     assertEquals("123-456-7890", call.getCallerNumber());
     assertEquals("987-654-3210", call.getCalleeNumber());
-    assertEquals("07/17/2024", call.getBeginDate());
-    assertEquals("10:00", call.getBegin_Time());
-    assertEquals("07/17/2024", call.getEndDate());
-    assertEquals("11:00", call.getEnd_Time());
+    assertEquals(call.getBeginTimeString(),"7/17/24, 10:00 AM");
+    assertEquals(call.getEndTimeString(),"8/18/24, 11:00 AM");
   }
+/*
   @Test
   public void testPhoneCallConstructorWithPrintArgument() {
     // toString()
@@ -54,7 +52,7 @@ public class PhoneCallTest {
     assertEquals("07/17/2024", call.getEndDate());
     assertEquals("11:00", call.getEnd_Time());
     assertEquals(expectedOutput,call.toString());
-  }
+  }*/
 
 
 

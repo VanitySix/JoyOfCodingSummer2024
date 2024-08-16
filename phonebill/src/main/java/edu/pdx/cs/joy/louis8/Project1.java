@@ -6,6 +6,11 @@ import org.w3c.dom.Text;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -21,8 +26,55 @@ public class Project1 {
   static boolean isValidPhoneNumber(String phoneNumber) {
     return true;
   }
+  public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+
+  /*private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("M/d/yyyy H:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("MM/d/yyyy H:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("M/dd/yyyy H:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("MM/dd/yyyy H:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("M/d/yyyy HH:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("MM/dd/yyyy HH:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("M/dd/yyyy HH:mm")
+                          .toFormatter()
+          )
+          .appendOptional(
+                  new DateTimeFormatterBuilder()
+                          .appendPattern("MM/dd/yyyy HH:mm")
+                          .toFormatter()
+          )
+          .appendPattern("MM/dd/yyyy HH:mm")
+          .toFormatter()
+          .withResolverStyle(ResolverStyle.STRICT);*/
 
   public static void main(String[] args) {
+
     Map<String, PhoneBill> phoneBills = new HashMap<>();
     boolean printOption = false;
     boolean readMeOption = false;
@@ -55,6 +107,7 @@ public class Project1 {
     nonOptionArgs = arguments.size();
     validateArgNumber(nonOptionArgs);
 
+
     try {
       String a_customer = arguments.get(0);
       String a_callerNumber = arguments.get(1);
@@ -65,24 +118,39 @@ public class Project1 {
       String end_time = arguments.get(6);
 
       String phoneErrorMsg = validatePhoneNumber(a_callerNumber,a_calleeNumber);
-      validateDateTime(begin_date + " " + begin_time);
-      validateDateTime(end_date + " " + end_time);
+      //validateDateTime(begin_date + " " + begin_time);
+      //validateDateTime(end_date + " " + end_time);
+      if (!validateDateTime(begin_date + " " + begin_time) || !validateDateTime(end_date + " " + end_time)) {
+        System.err.println("Datetime format is incorrect. Expected format: MM/dd/yyyy HH:mm");
+        return;
+      }
+
+      // Combine date and time into a single LocalDateTime
+      LocalDateTime beginDateTime = parseDateTime(begin_date + " " + begin_time);
+      LocalDateTime endDateTime = parseDateTime(end_date + " " + end_time);
+      System.out.println(beginDateTime);
+      System.out.println(endDateTime);
 
       if(!phoneErrorMsg.equals("Correct.")) {
         System.err.println(phoneErrorMsg);
       }
 
       // Create Phone call (call) and add to Phone bill (bill)
-      PhoneCall call = new PhoneCall(a_customer, a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+      PhoneCall call = new PhoneCall(a_customer, a_callerNumber, a_calleeNumber, beginDateTime, endDateTime);
       PhoneBill bill = new PhoneBill(a_customer);
       //PhoneCall test = new PhoneCall("Mike Fox", a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);
-      //PhoneCall test2 = new PhoneCall("Third Person", a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+      //PhoneCall test2 = new PhoneCall("Third Person", a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);
+      System.out.println(call.getBeginTimeString());
+      System.out.println(call.getEndTimeString());
+      System.out.println(call.beginDateTime);
+      System.out.println(call.endDateTime);
 
       bill.addPhoneCall(call);
       //bill.addPhoneCall(test);
       //bill.addPhoneCall(test2);
 
       // Dump new PhoneBill to the file
+
       if (filePath != null) {
         try (FileWriter fileWriter = new FileWriter(filePath, true)) {
           TextDumper dumper = new TextDumper(fileWriter);
@@ -108,24 +176,23 @@ public class Project1 {
       System.out.println("hello");
       System.out.println("Number of phone calls in bill: " + bill.getPhoneCalls().size());*/
 
-
+/*
       try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
         String line;
         int lineNumber = 1;
-        String lastCustomer = null;
 
         // Loop to read each line until the end of the file
         while ((line = br.readLine()) != null) {
-          // Process each line here
           String[] parts = line.split("\\s+");
           String newCustomer = parts[0] + " " + parts[1];
           String newCallerNumber = parts[2];
           String newCalleeNumber = parts[3];
-          String newBeginDate = parts[4];
-          String newBeginTime = parts[5];
-          String newEndDate = parts[6];
-          String newEndTime = parts[7];
-          PhoneCall newCall = new PhoneCall(newCustomer,newCallerNumber,newCalleeNumber,newBeginDate,newBeginTime,newEndDate,newEndTime);
+          String newBeginDateTime = parts[4] + " " + parts[5]; // Combine date and time
+          String newEndDateTime = parts[6] + " " + parts[7];
+
+          LocalDateTime aBeginDateTime = parseDateTime(newBeginDateTime);
+          LocalDateTime aEndDateTime = parseDateTime(newEndDateTime);
+          PhoneCall newCall = new PhoneCall(newCustomer,newCallerNumber,newCalleeNumber,aBeginDateTime,aEndDateTime);
 
           PhoneBill a_bill = phoneBills.get(newCustomer);
 
@@ -142,6 +209,8 @@ public class Project1 {
       } catch (IOException e) {
         System.err.println("Error reading file: " + e.getMessage());
       }
+      */
+
       /*
       // Test printing out all list of customers
       System.out.println("List of Customers:");
@@ -160,7 +229,7 @@ public class Project1 {
         Collection<PhoneCall> calls = a_bill.getPhoneCalls();
 
         if (calls.isEmpty()) {
-          System.out.println("  No phone calls found.");
+          System.out.println("No phone calls found.");
         } else {
           for (PhoneCall acall : calls) {
             System.out.println("  Phone Call:");
@@ -208,6 +277,16 @@ public class Project1 {
     System.out.println("Date and time should be in the format: mm/dd/yyyy hh:mm");
 
 
+  }
+
+  public static LocalDateTime parseDateTime(String dateTimeStr) {
+    //return LocalDateTime.parse(dateTimeStr, formatter);
+    try {
+      return LocalDateTime.parse(dateTimeStr, formatter);
+    } catch (DateTimeParseException e) {
+      System.err.println("Error parsing date-time: " + e.getMessage());
+      return null; // Or handle the error appropriately
+    }
   }
 
   /**
@@ -336,5 +415,6 @@ public class Project1 {
       return null;
     }
   }
+
 
 }
