@@ -1,26 +1,19 @@
 package edu.pdx.cs.joy.louis8;
 
 import com.google.common.annotations.VisibleForTesting;
-import edu.pdx.cs.joy.ParserException;
-import org.w3c.dom.Text;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * The main class for the Phone Bill Project
  */
-public class Project1 {
+public class Project3 {
 
   @VisibleForTesting
   static boolean isValidPhoneNumber(String phoneNumber) {
@@ -341,7 +334,7 @@ public class Project1 {
    * @return README file contents for testing purposes
    */
   public static String printReadMe() {
-    try (InputStream inputStream = Project1.class.getClassLoader().getResourceAsStream("edu/pdx/cs/joy/louis8/README.txt")) {
+    try (InputStream inputStream = Project3.class.getClassLoader().getResourceAsStream("edu/pdx/cs/joy/louis8/README.txt")) {
       if (inputStream == null) {
         throw new IOException("README.txt not found");
       }

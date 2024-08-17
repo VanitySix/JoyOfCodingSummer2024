@@ -3,7 +3,6 @@ package edu.pdx.cs.joy.louis8;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,17 +12,11 @@ import java.util.Collection;
 import org.junit.jupiter.api.io.TempDir;
 
 
-import static edu.pdx.cs.joy.louis8.Project1.parseDateTime;
-import static org.hamcrest.CoreMatchers.*;
+import static edu.pdx.cs.joy.louis8.Project3.parseDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * A unit test for code in the <code>Project1</code> class.  This is different
- * from <code>Project1IT</code> which is an integration test (and can capture data
- * written to {@link System#out} and the like.
- */
-class Project1Test {
+class Project3Test {
   @TempDir
   Path tempDir;
   /*
@@ -130,37 +123,37 @@ class Project1Test {
 
   @Test
   void validateCorrectNumbers() {
-    String result = Project1.validatePhoneNumber("123-456-7890", "987-654-3210");
+    String result = Project3.validatePhoneNumber("123-456-7890", "987-654-3210");
     assertEquals("Correct.", result);
   }
 
   @Test
   void validateIncorrectNumbers() {
-    String result = Project1.validatePhoneNumber("aaa-456-7890", "987-654-3210");
+    String result = Project3.validatePhoneNumber("aaa-456-7890", "987-654-3210");
     assertEquals("The format of the phone number is incorrect. Phone numbers have the form nnn-nnn-nnnn where n is a number 0-9.", result);
   }
 
   @Test
   void validateIncorrectPhoneFormat() {
-    String result = Project1.validatePhoneNumber("1-3-4-6-78-0", "987-654-3210");
+    String result = Project3.validatePhoneNumber("1-3-4-6-78-0", "987-654-3210");
     assertEquals("The format of the phone number is incorrect. Phone numbers have the form nnn-nnn-nnnn where n is a number 0-9.", result);
   }
 
   @Test
   void testValidDateTime() {
-    assertTrue(Project1.validateDateTime("08/15/2024 10:39"), "Valid date/time.");
-    assertTrue(Project1.validateDateTime("06/02/2024 01:31"), "Valid date/time.");
-    assertTrue(Project1.validateDateTime("6/02/2024 01:31"), "Valid date/time.");
-    assertTrue(Project1.validateDateTime("06/02/2024 1:31"), "Valid date/time.");
+    assertTrue(Project3.validateDateTime("08/15/2024 10:39"), "Valid date/time.");
+    assertTrue(Project3.validateDateTime("06/02/2024 01:31"), "Valid date/time.");
+    assertTrue(Project3.validateDateTime("6/02/2024 01:31"), "Valid date/time.");
+    assertTrue(Project3.validateDateTime("06/02/2024 1:31"), "Valid date/time.");
   }
 
   @Test
   void testInvalidDateTime() {
-    assertFalse(Project1.validateDateTime("08/33/2024 10:39"), "Invalid date.");
-    assertFalse(Project1.validateDateTime("15/08/2024 10:39"), "Invalid month.");
-    assertFalse(Project1.validateDateTime("08/15/2024 32:00"), "Invalid hours.");
-    assertFalse(Project1.validateDateTime("08/15/2024 10:60"), "Invalid minutes.");
-    assertFalse(Project1.validateDateTime("08/15/2024 10:39 PM"), "24 hour format only.");
+    assertFalse(Project3.validateDateTime("08/33/2024 10:39"), "Invalid date.");
+    assertFalse(Project3.validateDateTime("15/08/2024 10:39"), "Invalid month.");
+    assertFalse(Project3.validateDateTime("08/15/2024 32:00"), "Invalid hours.");
+    assertFalse(Project3.validateDateTime("08/15/2024 10:60"), "Invalid minutes.");
+    assertFalse(Project3.validateDateTime("08/15/2024 10:39 PM"), "24 hour format only.");
   }
 
   /*
