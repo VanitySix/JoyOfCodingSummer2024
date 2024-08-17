@@ -22,7 +22,7 @@ where n is 0-9. The month and hour of begin and end can be single digit. Options
 - If -textfile option is not chosen or provided, default.txt will be created in the current directory.
 
 ## Command Line Options
-
+* pretty - followed by directory name, a new directory/file will be created. The default directory is default.txt if none is specified. Prints the phone bill to a text file in "pretty" format
+* textFile - followed by directory name, a new directory/file will be created. The default directory is default.txt if none is specified. Prints phone bill to text file.
 * print - reads out the description of the newly added phone call.
-* textFile - followed by the directory name, a new directory/file will be created. The default directory is default.txt if none is specified.
 * README - print out the README file.

@@ -6,6 +6,7 @@ import edu.pdx.cs.joy.PhoneBillDumper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -26,19 +27,6 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
     }
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
 
-/*
-    // Write each phone call
-    for (PhoneCall call : bill.getPhoneCalls()) {
-      writer.write(String.format("%s %s %s %s %s %s %s\n",
-              call.getCustomer(),
-              call.getCallerNumber(),
-              call.getCalleeNumber(),
-              call.getBeginTime().format(formatter), // Format LocalDateTime to String
-              call.getEndTime().format(formatter))); // Format LocalDateTime to String
-      //System.out.println(call.getCustomer() + " " + call.getCallerNumber() + " " + call.getCalleeNumber());
-      //System.out.println(call.getBeginTime().format(formatter));
-      //System.out.println(call.getEndTime().format(formatter));
-    }*/
     for (PhoneCall call : bill.getPhoneCalls()) {
       String beginTimeStr;
       String endTimeStr;
@@ -64,6 +52,26 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
               endTimeStr));
     }
     // Flush and close the writer
+    writer.flush();
+  }
+  public void prettyDump(PhoneBill bill) throws IOException {
+    writer.write("Phone Bill for Customer: " + bill.getCustomer() + "\n\n");
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+
+    for (PhoneCall call : bill.getPhoneCalls()) {
+      String beginTimeStr = call.getBeginTime().format(formatter);
+      String endTimeStr = call.getEndTime().format(formatter);
+      long durationMinutes = Duration.between(call.getBeginTime(), call.getEndTime()).toMinutes();
+
+      writer.write(String.format("Caller: %s\nCallee: %s\nStart Time: %s\nEnd Time: %s\nDuration: %d minutes\n\n",
+              call.getCallerNumber(),
+              call.getCalleeNumber(),
+              beginTimeStr,
+              endTimeStr,
+              durationMinutes));
+    }
+
     writer.flush();
   }
   }

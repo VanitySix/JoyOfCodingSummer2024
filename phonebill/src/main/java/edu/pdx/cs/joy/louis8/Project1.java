@@ -28,51 +28,6 @@ public class Project1 {
   }
   public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
 
-  /*private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("M/d/yyyy H:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("MM/d/yyyy H:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("M/dd/yyyy H:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("MM/dd/yyyy H:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("M/d/yyyy HH:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("MM/dd/yyyy HH:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("M/dd/yyyy HH:mm")
-                          .toFormatter()
-          )
-          .appendOptional(
-                  new DateTimeFormatterBuilder()
-                          .appendPattern("MM/dd/yyyy HH:mm")
-                          .toFormatter()
-          )
-          .appendPattern("MM/dd/yyyy HH:mm")
-          .toFormatter()
-          .withResolverStyle(ResolverStyle.STRICT);*/
-
   public static void main(String[] args) {
 
     Map<String, PhoneBill> phoneBills = new HashMap<>();
@@ -81,6 +36,9 @@ public class Project1 {
     boolean whereWriteOption = false;
     String filePath = "default.txt";
     int nonOptionArgs = 0;
+    boolean prettyToStdOut = false;
+    boolean prettyToFile = false;
+    String prettyFilePath = null;
 
     // Check if print,README, or textFile options exists in command line
     // Count the number of non option arguments
@@ -98,7 +56,21 @@ public class Project1 {
           System.err.println("Error: No file path specified after -textFile option.");
           return;
         }
-      } else {
+      }
+      else if(arg.equals("-pretty")){
+        if (i + 1 < args.length) {
+          prettyFilePath = args[++i];
+          if (prettyFilePath.equals("-" )) {
+            prettyToStdOut = true;
+          } else {
+            prettyToFile = true;
+          }
+        } else{
+          System.err.println("Error: No file path specified after -pretty option.");
+          return;
+        }
+      }
+      else {
         arguments.add(arg);
       }
     }
@@ -106,7 +78,6 @@ public class Project1 {
     // Validate the number of non-option arguments
     nonOptionArgs = arguments.size();
     validateArgNumber(nonOptionArgs);
-
 
     try {
       String a_customer = arguments.get(0);
@@ -128,8 +99,6 @@ public class Project1 {
       // Combine date and time into a single LocalDateTime
       LocalDateTime beginDateTime = parseDateTime(begin_date + " " + begin_time);
       LocalDateTime endDateTime = parseDateTime(end_date + " " + end_time);
-      System.out.println(beginDateTime);
-      System.out.println(endDateTime);
 
       if(!phoneErrorMsg.equals("Correct.")) {
         System.err.println(phoneErrorMsg);
@@ -138,45 +107,19 @@ public class Project1 {
       // Create Phone call (call) and add to Phone bill (bill)
       PhoneCall call = new PhoneCall(a_customer, a_callerNumber, a_calleeNumber, beginDateTime, endDateTime);
       PhoneBill bill = new PhoneBill(a_customer);
-      //PhoneCall test = new PhoneCall("Mike Fox", a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);
-      //PhoneCall test2 = new PhoneCall("Third Person", a_callerNumber, a_calleeNumber, begin_date, begin_time, end_date, end_time, printOption, readMeOption);
-      System.out.println(call.getBeginTimeString());
-      System.out.println(call.getEndTimeString());
-      System.out.println(call.beginDateTime);
-      System.out.println(call.endDateTime);
-
       bill.addPhoneCall(call);
-      //bill.addPhoneCall(test);
-      //bill.addPhoneCall(test2);
 
-      // Dump new PhoneBill to the file
-
+      // Dump new PhoneBill to text file
       if (filePath != null) {
         try (FileWriter fileWriter = new FileWriter(filePath, true)) {
           TextDumper dumper = new TextDumper(fileWriter);
-
           dumper.dump(bill);
         } catch (IOException e) {
           System.err.println("Error writing to file: " + e.getMessage());
           return;
         }
       }
-
-      // Pass bill into parsing function.
-      // Parse text file and grab data.
-      // Create new phone call in function with the new grabbed data and add it to phone bill.
-      //Reader fileReader = new FileReader(filePath);
-      //TextParser parsing = new TextParser(fileReader);
-      //parsing.parse();
-      //System.out.println("-----");
-      //PhoneBill bill = new PhoneBill("John Doe");
-      /*bill.addPhoneCall(new PhoneCall("John Doe", "123-456-7890", "111-111-1111", "08/01/2024", "10:00", "08/01/2024", "11:00"));
-      Collection<PhoneCall> calls = bill.getPhoneCalls();
-      System.out.println(bill.toString());
-      System.out.println("hello");
-      System.out.println("Number of phone calls in bill: " + bill.getPhoneCalls().size());*/
-
-/*
+      // Read and parse text file
       try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
         String line;
         int lineNumber = 1;
@@ -197,21 +140,43 @@ public class Project1 {
           PhoneBill a_bill = phoneBills.get(newCustomer);
 
           if (a_bill == null) {
-            // Create a new PhoneBill if it doesn't exist
             a_bill = new PhoneBill(newCustomer);
             phoneBills.put(newCustomer, a_bill);
           }
           a_bill.addPhoneCall(newCall);
 
-          System.out.println("Line " + lineNumber + ": " + line);
-          lineNumber++;
+          //System.out.println("Line " + lineNumber + ": " + line);
+          //lineNumber++;
         }
       } catch (IOException e) {
         System.err.println("Error reading file: " + e.getMessage());
       }
-      */
 
-      /*
+      PhoneBill phoneBill = phoneBills.get(a_customer);
+      if (phoneBill == null) {
+        phoneBill = new PhoneBill(a_customer);
+        phoneBills.put(a_customer, phoneBill);
+      }
+      phoneBill.addPhoneCall(call);
+
+
+      // Print phone bill to pretty text file
+      if (prettyToStdOut) {
+        // Standard output display
+        TextDumper prettyPrinter = new TextDumper(new OutputStreamWriter(System.out));
+        prettyPrinter.prettyDump(phoneBill);
+      } else if (prettyToFile) {
+        // Write to file
+        try (FileWriter fileWriter = new FileWriter(prettyFilePath)) {
+          TextDumper prettyPrinter = new TextDumper(fileWriter);
+          prettyPrinter.prettyDump(phoneBill);
+        } catch (IOException e) {
+          System.err.println("Error writing to file: " + e.getMessage());
+          return;
+        }
+      }
+
+/*
       // Test printing out all list of customers
       System.out.println("List of Customers:");
       for (PhoneBill a_bill : phoneBills.values()) {
@@ -224,25 +189,7 @@ public class Project1 {
 
       for (PhoneBill a_bill : phoneBills.values()) {
         System.out.println("Customer: " + a_bill.getCustomer());
-
-        // Get all phone calls for this customer
-        Collection<PhoneCall> calls = a_bill.getPhoneCalls();
-
-        if (calls.isEmpty()) {
-          System.out.println("No phone calls found.");
-        } else {
-          for (PhoneCall acall : calls) {
-            System.out.println("  Phone Call:");
-            System.out.println("    Caller Number: " + acall.getCallerNumber());
-            System.out.println("    Callee Number: " + acall.getCalleeNumber());
-            System.out.println("    Begin Date: " + acall.getBeginDate());
-            System.out.println("    Begin Time: " + acall.getBegin_Time());
-            System.out.println("    End Date: " + acall.getEndDate());
-            System.out.println("    End Time: " + acall.getEnd_Time());
-
-          }
-        }
-      }*/
+*/
 
       // Call toString method of call if "print" exists in command line
       if(printOption)
@@ -271,6 +218,7 @@ public class Project1 {
     System.out.println("begin        Date and time call began (24-hour time)");
     System.out.println("end          Date and time call ended (24-hour time)");
     System.out.println("options are (options may appear in any order):");
+    System.out.println("-pretty file Pretty print the phone bill to a text file\n" + "             or standard out (file -)");
     System.out.println("-textFile file Where to read/write the phone bill");
     System.out.println("-print       Prints a description of the new phone call");
     System.out.println("-README      Prints a README for this project and exits");
